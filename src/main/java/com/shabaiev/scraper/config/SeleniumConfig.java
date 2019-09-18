@@ -1,0 +1,25 @@
+package com.shabaiev.scraper.config;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.io.File;
+
+@Configuration
+public class SeleniumConfig {
+
+    @Bean
+    @Qualifier("chrome")
+    WebDriver getChromeDriver() {
+        File chromeDriver = new File("drivers/chromedriver.exe");
+        if(!chromeDriver.exists() ) {
+            throw new IllegalArgumentException("Couldn't find chromedriver.exe in " + chromeDriver.getAbsolutePath());
+        }
+        System.setProperty("webdriver.chrome.driver", chromeDriver.getAbsolutePath());
+        return new ChromeDriver();
+    }
+
+}
